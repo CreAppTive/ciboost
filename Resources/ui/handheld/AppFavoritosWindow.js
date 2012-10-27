@@ -24,8 +24,11 @@ function AppFavoritosWindow() {
     for(i = 0; i < response.length; i++) {   
     	var item = response[i]; 
     	var names = ["SAY CHESSE","MEDIEVAL BURGUER","JOEY PIZZA"];
+    	var urls = ["https://www.sugarsync.com/piv/D8509046_65004435_113272",
+    				"https://www.sugarsync.com/piv/D8509046_65004435_113283",
+    				"https://www.sugarsync.com/piv/D8509046_65004435_113202"];
     	
-	 	tbl_data[i] = makeRow({ name:names[i],cantidad:"10", total:"$00.00", image:"" });
+	 	tbl_data[i] = makeRow({ name:names[i],cantidad:"10", total:"$00.00", image:urls[i] });
 	  }
 	
 	table.setData(tbl_data);

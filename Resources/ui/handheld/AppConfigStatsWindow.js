@@ -23,6 +23,10 @@ function AppConfigStatsWindow() {
 		self.rightNavButton = btnExit;
  
 	
+	var webview = Titanium.UI.createWebView({url:'/html-app/stats.html',backgroundColor:'transparent'});
+ 
+	self.add(webview);
+	
 		
 	return self;
 };

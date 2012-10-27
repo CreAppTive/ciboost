@@ -62,7 +62,7 @@ function AppHomeMapWindow() {
 	
 	Titanium.Geolocation.getCurrentPosition(function(e)
 	{
-		var longitude = e.coords.longitude;
+		/*var longitude = e.coords.longitude;
         var latitude = e.coords.latitude;
         var altitude = e.coords.altitude;
         var heading = e.coords.heading;
@@ -72,7 +72,7 @@ function AppHomeMapWindow() {
         var altitudeAccuracy = e.coords.altitudeAccuracy;
         
         mapview.setRegion( {latitude:latitude, longitude:longitude, 
-	            latitudeDelta:0.06, longitudeDelta:0.06});
+	            latitudeDelta:0.06, longitudeDelta:0.06});*/
 	});
 	
 	

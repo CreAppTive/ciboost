@@ -46,7 +46,7 @@ if (Ti.version < 1.8 ) {
 	//yourself what you consider a tablet form factor for android
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
 	
-	var user = true;
+	var user = false;
 	var Window;
 	if (isTablet) {
 		Window = require('ui/tablet/ApplicationWindow');

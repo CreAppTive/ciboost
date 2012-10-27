@@ -49,6 +49,10 @@ function AppConfigCreditosWindow() {
 	section2.headerTitle = "Extra Credits";
 	var row5 = Titanium.UI.createTableViewRow({title:"Esteban Patiño"});
 	section2.add(row5);
+	
+	
+	section2.add(Titanium.UI.createTableViewRow({title:"Logopond.com"}));
+	section2.add(Titanium.UI.createTableViewRow({title:"stock exchange"}));
 	 
 	table.setData([section1,section2]);
 	

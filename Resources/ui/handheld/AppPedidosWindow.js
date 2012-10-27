@@ -30,6 +30,7 @@ function AppPedidosWindow() {
 	var db = Ti.Database.open('main');
 	var resDB = db.execute("SELECT id, id_store, name FROM pedidos WHERE status = 0;");	
 	
+	
 	if(resDB.isValidRow())
 	 {
 	 	var idpedido = resDB.fieldByName('id');

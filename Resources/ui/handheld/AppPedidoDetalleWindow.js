@@ -1,6 +1,6 @@
 function AppPedidoDetalleWindow(store) {
 	
-	
+	Ti.API.log(store);
 	var CheckOutWin = require('/ui/handheld/AppCheckOutWindow');
 	
 	var self = Ti.UI.createWindow({
@@ -121,6 +121,7 @@ function AppPedidoDetalleWindow(store) {
     var cantidad = 0,total = 0;
 	var db = Ti.Database.open('main');
 	var resDB = db.execute('SELECT id, id_store, name FROM pedidos WHERE id_store = ' + store.id + " AND status = 0;");	
+	var i = 0;
 	if(resDB.isValidRow())
 	 {
 	 	var idpedido = resDB.fieldByName('id');
@@ -136,14 +137,15 @@ function AppPedidoDetalleWindow(store) {
 	       
 	       
 	       Ti.API.log(id);
-	       tbl_data[i] = makeRow({ name:name,cantidad:"10", precio:cost, total:"$00.00", image:image });
+	       tbl_data[i] = makeRow({ name:name,cantidad:"10", precio:cost, total:"$10.00", image:image });
+	       i++;
 	       
 	       resultSet.next();
 	    }
     
 	 }
     
-    
+    tbl_data[i] = makeRow({ name:"Chilli Wings",cantidad:"10", precio:"10.00", total:"$10.00", image:"https://www.sugarsync.com/piv/D8509046_66077986_013754" });
     
     //var item = response[i]; 
 	//tbl_data[i] = makeRow({ name:"Nombre Restaurante",cantidad:"10", precio:"$00.00", total:"$00.00", image:"" });
