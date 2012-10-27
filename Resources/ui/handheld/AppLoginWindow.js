@@ -3,6 +3,7 @@ function AppLoginWindow(startApp) {
 		title:"",
 		backgroundColor:'white',
 		backgroundImage:"/iphone/background.jpg",
+		barColor:"000",
 		barImage:"/iphone/nav-bar.jpg"
 	});
 	

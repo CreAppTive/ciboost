@@ -41,17 +41,21 @@ function AppHomeMapWindow() {
 		});
 	
 		searchview.add(searchtxt);
-	self.add(searchview);	
+		self.add(searchview);	
 	// MAPA
 	
+	
+
+
+
 	var mapview = Titanium.Map.createView({
 	    mapType: Titanium.Map.STANDARD_TYPE,
-	    /*region: {latitude:37.78583526611328, longitude:-122.4064178466797, 
-	            latitudeDelta:0.01, longitudeDelta:0.01},*/
+	    region: {latitude:41.402445047516515, longitude:2.1925553002472498, 
+	            latitudeDelta:0.01, longitudeDelta:0.01},
 	    animate:true,
 	    regionFit:true,
-	    userLocation:true,
-	   // annotations:[mountainView],
+	    userLocation:false,
+	    //annotations:[mountainView],
 	    height:160,
 	    top:45
 	});
@@ -68,16 +72,18 @@ function AppHomeMapWindow() {
         var altitudeAccuracy = e.coords.altitudeAccuracy;
         
         mapview.setRegion( {latitude:latitude, longitude:longitude, 
-	            latitudeDelta:0.01, longitudeDelta:0.01});
+	            latitudeDelta:0.06, longitudeDelta:0.06});
 	});
+	
 	
 	self.add(mapview);
 	
-
 	
-		
-		
-		
+	/*mapview.setRegion( {latitude:"41.402445047516515", longitude:"2.1925553002472498", 
+	            						latitudeDelta:0.01, longitudeDelta:0.01});*/
+	
+	
+
 	// LISTA
 		var contTable = Ti.UI.createView({
 			top:200,
@@ -113,9 +119,36 @@ function AppHomeMapWindow() {
 		        var tbl_data = [];
 		        remoteData = response;
 		        
+		        Ti.App.stores = remoteData;
+		        
 		        for(i = 0; i < response.length; i++) {   
 		        	var item = response[i]; 
 				 	tbl_data[i] = makeRow(item);
+				 	
+				 	// Ti.API.trace(item);
+				 	
+						var mountainView = Titanium.Map.createAnnotation({         
+						latitude:item.location.lat,
+				
+				         longitude:item.location.lng,
+				
+				         title:item.name,
+				
+				         subtitle:item.categories[0].name,
+				
+				         pincolor:Titanium.Map.ANNOTATION_RED,
+				
+				         animate:true,
+				
+				         // leftButton: '../images/appcelerator_small.png',
+				
+				         myid:i // Custom property to uniquely identify this annotation.
+				
+				     });
+     
+				 	mapview.addAnnotation(mountainView);
+					
+	            
 				  }
 	  			
 	  			table.setData(tbl_data);
@@ -134,9 +167,9 @@ function AppHomeMapWindow() {
 	
 	// NAVBAR BUTTONS
 		var reload = Titanium.UI.createButton({
-			backgroundImage:"/iphone/btn-send.png",
-			width:30,
-			height:30 
+			backgroundImage:"/iphone/btn-refresh.png",
+			width:35,
+			height:29 
 		});
 		self.rightNavButton = reload;
 		 
@@ -164,6 +197,7 @@ function AppHomeMapWindow() {
 		  //profileWin.opacity = 0;
 		  
 		  conf_win.animate({opacity:1, top:0, duration:300});
+		  
 		})
 
 	
@@ -182,7 +216,10 @@ function makeRow(item)
 	var imgPath = items[0].image
 	
 	if(imgPath =="")
-	imgPath = "/iphone/default-item.png";
+	 imgPath = item.image;
+	 
+	if(imgPath =="")	 
+		imgPath = "/iphone/default-item.png";
 	
 	var imageThumb =  Titanium.UI.createImageView({
 		url:imgPath,
@@ -192,7 +229,7 @@ function makeRow(item)
 		top:10,
 		borderWidth: 2,
 		borderColor: "#FFF",
-		backgroundColor:"#000",
+		backgroundColor:"#FFF",
 	});
 	 
 	var mainTitle = Titanium.UI.createLabel({

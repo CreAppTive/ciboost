@@ -22,6 +22,25 @@ if (Ti.version < 1.8 ) {
 		version = Ti.Platform.version,
 		height = Ti.Platform.displayCaps.platformHeight,
 		width = Ti.Platform.displayCaps.platformWidth;
+
+	// VARIABLES BLOGALES
+	var globalData = {};
+	Ti.App.pedidos = [];
+	Ti.App.stores = [];
+	Ti.App.user = {
+		id:"508b1274e4b04a375aa93e13",
+		name:"",
+		token:"a8a-a146-9a82d041d2d6"
+	};
+	Ti.App.appKey = "7003ac2ad3";
+	Ti.App.apiBaseURL = "http://finappsapi.bdigital.org/api/2012/"; 
+	
+	
+	var db = Ti.Database.install('appDB.sqlite',"main");
+	
+	//var db = Ti.Database.open('appDB');
+		//db.execute('CREATE TABLE IF NOT EXISTS pedidos(id INTEGER PRIMARY KEY, name TEXT;');
+		//db.execute('CREATE TABLE IF NOT EXISTS pedidos_items(id INTEGER PRIMARY KEY, name TEXT, cost TEXT, image TEXT, description TEXT ;');
 	
 	//considering tablet to have one dimension over 900px - this is imperfect, so you should feel free to decide
 	//yourself what you consider a tablet form factor for android
@@ -40,6 +59,25 @@ if (Ti.version < 1.8 ) {
 		var ApplicationTabGroup = require('ui/common/ApplicationTabGroup');
 		var TabGroup = new ApplicationTabGroup(Window);
 		TabGroup.open();
+		
+		Titanium.UI.currentTabGroup = TabGroup;
+		Ti.App.currentTabGroup = TabGroup;
+		
+		
+		
+		TabGroup.addEventListener('focus', function(e){
+		    TabGroup._activeTab = e.tab;
+		    TabGroup._activeTabIndex = e.index;
+		    
+		    if ( TabGroup._activeTabIndex == -1) return;
+		    //Ti.API.info(TabGroup._activeTabIndex);
+		    //Ti.API.info(TabGroup._activeTab.title);
+		 
+		    // create property in Ti namespace
+		    Ti.API._activeTab = TabGroup._activeTab;
+		   //Ti.API.info(Ti.API._activeTab.title);
+		 
+		});
 	}
 	
 	if(user)
@@ -52,6 +90,8 @@ if (Ti.version < 1.8 ) {
 		new AppLoginWindow(startApp).open();
 		
 	}
+	
+	
 	
 	
 

@@ -1,5 +1,8 @@
 function AppStoreWindow(store) {
 	
+	
+	var detallePedidoWin = require('/ui/handheld/AppPedidoDetalleWindow');
+	
 	var self = Ti.UI.createWindow({
 		title:store.name,
 		backgroundColor:'white',
@@ -7,6 +10,8 @@ function AppStoreWindow(store) {
 		barImage:"/iphone/nav-bar.jpg"
 	});
 	
+	
+	    
 	var scrollView = Titanium.UI.createScrollView({
 	    contentWidth:'auto',
 	    contentHeight:'auto',
@@ -86,17 +91,34 @@ function AppStoreWindow(store) {
 		    contentWidth:'auto',
 		    contentHeight:'auto',
 		    width:"100%", 
-		    height:320,
+		    height:260,
 		    top:110,
 		    showVerticalScrollIndicator:false,
 		    showHorizontalScrollIndicator:true
 		});
 	
 		var Things = store.items;
+		var numProductos = 0;
+		var totalPedido = 0;
+		
+		
+		var cantidad = 0,total = 0;
+		var db = Ti.Database.open('main');
+		var resDB = db.execute('SELECT id, id_store, name FROM pedidos WHERE id_store = ' + store.id + " AND status = 0;");	
+		if(resDB.isValidRow())
+		 {
+		 	var idpedido = resDB.fieldByName('id');
+			db.execute('SELECT count(id), sum(cost) FROM pedidos_items WHERE id = ' + idpedido + ";");	
+			cantidad = resDB.field(0);
+			total = resDB.field(1);
+		 }
+		 
+		// Ti.API.log(cantidad);
+
 		for(var i=0,j=Things.length; i<j; i++){
 		  var item = Things[i];
 		  
-		  var view = Ti.UI.createView({ left:10 + (i*180) + (12*i), width:180, height:303, top:10 });
+		  var view = Ti.UI.createView({ left:10 + (i*180) + (12*i), width:180, height:240, top:10 });
 		  
 		   var btnAdd = Ti.UI.createButton({
 			   	backgroundImage: "/iphone/btn-add-item.png",
@@ -106,16 +128,64 @@ function AppStoreWindow(store) {
 			   	right:15
 		   });
 		   
-		   var dataView = Ti.UI.createView({
-			  backgroundImage:'/iphone/image-demo.png',
-			  width:180,
-			  height:298,
-			  borderRadius:10
+		   btnAdd.addEventListener("click",function(e){
+		   		storeInfoView.show();
+		   		storeInfoView.animate({opacity:1, bottom:0, duration:300});
+		   		
+		   		numProductos += 1;
+		   		total_productos.setText("Items: " + numProductos + "    Total: " + totalPedido);
+		   		
+		   		var resDB = db.execute('SELECT id, id_store, name FROM pedidos WHERE id_store = ' + store.id + " AND status = 0;");	
+		   		//Ti.API.log(resDB.isValidRow());
+		   		
+		   		// PEDIDO
+		   		if(!resDB.isValidRow())
+		   		{
+		   			db.execute('INSERT INTO pedidos (id,id_store,name) VALUES (NULL,?,?)', store.id, store.name);	
+					var resDB = db.execute('SELECT id,id_store, name FROM pedidos WHERE id = ' + store.id + ";");
+		   		}
+		   			var tempid = resDB.fieldByName('id');
+		   			
+		   		
+		   		// PRODUCTOS
+		   		db.execute('INSERT INTO pedidos_items (id,id_item,name,cost,image,description,id_pedido) VALUES (NULL,?,?,?,?,?,?)', item.id, item.name,item.cost,item.image,item.description,tempid);	
+		   		
+		   	
+		   	
+		   });
+		   
+		   
+	
+	
+		   var image = item.image;
+		   Ti.API.info(image);
+		   
+		   if(image == "")
+		   		image = '/iphone/image-demo.png';
+		   		
+		   
+		   
+		   var imageThumb =  Titanium.UI.createImageView({
+				url:image,
+				width:"200%",
+				height:"150%"
+				
 			});
+			
+		   
+		   var dataView = Ti.UI.createView({
+		   	  backgroundColor:"#fff",
+			  width:180,
+			  height:230,
+			  borderRadius:10
+			});	
+			
+			dataView.add(imageThumb);
+			
 			
 			var footerview = Ti.UI.createView({
 			  width:"100%",
-			  height:92,
+			  height:62,
 			   backgroundColor: '#053c52',
        		   opacity: 0.7,
        		   bottom:0
@@ -125,7 +195,7 @@ function AppStoreWindow(store) {
 				text:item.name,
 				font:{fontSize:16,fontWeight:'bold'},
 				color:"#36a5cf",
-				bottom:70,
+				bottom:40,
 				width:"90%",
 				left:10
 			});
@@ -134,48 +204,33 @@ function AppStoreWindow(store) {
 				text:store.name,
 				font:{fontSize:12,fontWeight:'bold'},
 				color:"#fff",
-				bottom:55,
+				bottom:25,
 				width:"90%",
 				left:10
 			});
 			
 			var precio = Titanium.UI.createLabel({
-				text:item.cost,
+				text:"$" + item.cost,
 				font:{fontSize:16,fontWeight:'bold'},
 				color:"#fc931e",
-				bottom:35,
+				bottom:5,
 				width:"90%",
 				left:10
+				
 			});
 			
 			var descripcion = Titanium.UI.createLabel({
 				text:item.description,
 				font:{fontSize:12,fontWeight:'bold'},
 				color:"#fff",
-				bottom:55,
+				bottom:5,
 				width:"90%",
 				height:10,
 				left:10
 			});
 			
 			
-			var fav = Titanium.UI.createLabel({
-				text:"22",
-				font:{fontSize:14},
-				color:"#fff",
-				bottom:10,
-				width:100,
-				left:25
-			});
 			
-			var distance = Titanium.UI.createLabel({
-				text:"0.5 km",
-				font:{fontSize:14},
-				color:"#fff",
-				bottom:10,
-				width:100,
-				left:100
-			});
 			
 			
 			
@@ -185,10 +240,8 @@ function AppStoreWindow(store) {
 		  dataView.add(nombre_platillo);
 		  dataView.add(nombre_tienda);
 		  dataView.add(precio);
-		  dataView.add(descripcion);
+		  //dataView.add(descripcion);
 		  
-		  dataView.add(fav);
-		  dataView.add(distance);
 		  
 		  view.add(dataView);		
 		  view.add(btnAdd);
@@ -200,7 +253,7 @@ function AppStoreWindow(store) {
 		
 		productsScrollView.contentWidth = (180 + 12) * Things.length; 
 		
-	    
+	   
 	
 	scrollView.add(productsScrollView);
 
@@ -215,9 +268,40 @@ function AppStoreWindow(store) {
 	   backgroundImage:"/iphone/bg-car.png"
 	  // backgroundColor:"#f5f5f5"
 	});
-	
-	
-	
+		
+		var total_productos = Titanium.UI.createLabel({
+				text:"Items: " + cantidad + "    Total: " + total ,
+				font:{fontSize:16,fontWeight:'bold'},
+				color:"#fff",
+				top:18,
+				width:"80%",
+				height:12,
+				left:10
+			});
+			
+		var btnCheackout = Ti.UI.createButton({
+			   	backgroundImage: "/iphone/bnt-edit-order.png",
+			   	width:35,
+			   	height:29,
+			   	top:10,
+			   	right:15
+		   });
+		   
+		   btnCheackout.addEventListener("click",function(){
+		   	
+		   	Ti.App.currentTabGroup.activeTab.open(new detallePedidoWin(store));
+		   		
+		   })
+		   
+		   
+	storeInfoView.add(total_productos);
+	storeInfoView.add(btnCheackout );		   
+	if(cantidad==0){
+		storeInfoView.hide();
+		storeInfoView.bottom = -
+		50;
+		
+	}
 	self.add(scrollView);
 	self.add(storeInfoView);
 	return self;
@@ -225,5 +309,6 @@ function AppStoreWindow(store) {
 	
 	
 } 
+
 
 module.exports = AppStoreWindow;

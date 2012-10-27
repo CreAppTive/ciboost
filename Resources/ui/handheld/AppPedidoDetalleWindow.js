@@ -1,12 +1,28 @@
 function AppPedidoDetalleWindow(store) {
 	
+	
+	var CheckOutWin = require('/ui/handheld/AppCheckOutWindow');
+	
 	var self = Ti.UI.createWindow({
-		title:store.name,
+		title:"Pedido",
 		backgroundColor:'white',
 		backgroundImage:"/iphone/background.jpg",
+		barColor:"000",
 		barImage:"/iphone/nav-bar.jpg"
 	});
 	
+	var btnCheckout = Titanium.UI.createButton({
+			backgroundImage:"/iphone/btn-cheackout.png",
+			width:35,
+			height:29
+		});
+		self.rightNavButton = btnCheckout;
+		 
+		btnCheckout.addEventListener('click', function(e){
+			Ti.App.currentTabGroup.activeTab.open(new CheckOutWin(store));
+			
+		});
+		
 	var scrollView = Titanium.UI.createScrollView({
 	    contentWidth:'auto',
 	    contentHeight:'auto',
@@ -101,10 +117,37 @@ function AppPedidoDetalleWindow(store) {
 	var response = [1,1,1];
     var tbl_data = [];
     
-    for(i = 0; i < response.length; i++) {   
-    	var item = response[i]; 
-	 	tbl_data[i] = makeRow({ name:"Nombre Restaurante",cantidad:"10", precio:"$00.00", total:"$00.00", image:"" });
-	  }
+    // DETALLE DEL PEDIDO 
+    var cantidad = 0,total = 0;
+	var db = Ti.Database.open('main');
+	var resDB = db.execute('SELECT id, id_store, name FROM pedidos WHERE id_store = ' + store.id + " AND status = 0;");	
+	if(resDB.isValidRow())
+	 {
+	 	var idpedido = resDB.fieldByName('id');
+		var resultSet = db.execute('SELECT id,id_item,name,cost,image,description,id_pedido FROM pedidos_items WHERE id = ' + idpedido + ";");	
+		
+		while (resultSet.isValidRow()) {
+	       var id = resultSet.fieldByName('id');
+	       var name = resultSet.fieldByName('name');
+	       var cost = resultSet.fieldByName('cost');
+	       var image = resultSet.fieldByName('image');
+	       var description = resultSet.fieldByName('description');
+	       var id_pedido = resultSet.fieldByName('id_pedido');
+	       
+	       
+	       Ti.API.log(id);
+	       tbl_data[i] = makeRow({ name:name,cantidad:"10", precio:cost, total:"$00.00", image:image });
+	       
+	       resultSet.next();
+	    }
+    
+	 }
+    
+    
+    
+    //var item = response[i]; 
+	//tbl_data[i] = makeRow({ name:"Nombre Restaurante",cantidad:"10", precio:"$00.00", total:"$00.00", image:"" });
+	 	
 	
 	table.setData(tbl_data);
 	  			
@@ -154,7 +197,7 @@ function makeRow(item)
 		top:10,
 		borderWidth: 2,
 		borderColor: "#FFF",
-		backgroundColor:"#000",
+		backgroundColor:"#FFF",
 	});
 	 
 	var mainTitle = Titanium.UI.createLabel({

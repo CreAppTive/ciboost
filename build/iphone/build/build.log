@@ -5,7 +5,7 @@ reporting an issue to help us understand your environment, build settings
 and aid in debugging. Please attach this log to any issue that you report.
 ================================================================================
 
-Starting build at 10/26/12 01:00
+Starting build at 10/27/12 10:14
 
 Build details:
 
@@ -20,7 +20,7 @@ Script arguments:
    simulator
    6.0
    /Users/duck_jhona/Documents/Titanium_Studio/ciboost
-   com.jhona.ciboost
+   com.creapptive.ciboost
    ciboost
    iphone
    iphone
@@ -37,7 +37,7 @@ writing contents of /Users/duck_jhona/Documents/Titanium_Studio/ciboost/build/ip
 
 TI_VERSION=2.1.2.GA
 TI_SDK_DIR=/Users/duck_jhona/Library/Application Support/Titanium/mobilesdk/osx/$(TI_VERSION)/iphone
-TI_APPID=com.jhona.ciboost
+TI_APPID=com.creapptive.ciboost
 OTHER_LDFLAGS[sdk=iphoneos*]=$(inherited) -weak_framework iAd
 OTHER_LDFLAGS[sdk=iphonesimulator*]=$(inherited) -weak_framework iAd
 #include "module"

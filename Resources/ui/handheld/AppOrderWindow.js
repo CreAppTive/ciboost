@@ -4,6 +4,7 @@ function AppOrderWindow(orden) {
 		backgroundColor:'white',
 		backgroundImage:"/iphone/background.jpg",
 		barImage:"/iphone/nav-bar.jpg",
+		barColor:"000",
 		backButtonTitleImage :"/iphone/btn-back.png"
 	});
 	

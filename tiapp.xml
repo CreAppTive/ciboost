@@ -8,14 +8,14 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <sdk-version>2.1.2.GA</sdk-version>
-    <id>com.jhona.ciboost</id>
+    <id>com.creapptive.ciboost</id>
     <name>ciboost</name>
     <version>1.0</version>
     <publisher>duck_jhona</publisher>
     <url>http://</url>
     <description>not specified</description>
     <copyright>2012 by duck_jhona</copyright>
-    <icon>appicon.png</icon>
+    <icon>Icon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>

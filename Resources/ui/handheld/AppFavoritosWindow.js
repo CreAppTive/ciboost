@@ -6,6 +6,7 @@ function AppFavoritosWindow() {
 		backgroundColor:'white',
 		backgroundImage:"/iphone/background.jpg",
 		barImage:"/iphone/nav-bar.jpg",
+		barColor:"000",
 		backButtonTitleImage :""
 	});
 	
@@ -22,7 +23,9 @@ function AppFavoritosWindow() {
     
     for(i = 0; i < response.length; i++) {   
     	var item = response[i]; 
-	 	tbl_data[i] = makeRow({ name:"Nombre Restaurante",cantidad:"10", total:"$00.00", image:"" });
+    	var names = ["SAY CHESSE","MEDIEVAL BURGUER","JOEY PIZZA"];
+    	
+	 	tbl_data[i] = makeRow({ name:names[i],cantidad:"10", total:"$00.00", image:"" });
 	  }
 	
 	table.setData(tbl_data);
@@ -98,8 +101,8 @@ function makeRow(item)
 	
 	row.add(imageThumb);
 	row.add(mainTitle);
-	row.add(numPlatillos);
-	row.add(total);
+	//row.add(numPlatillos);
+	//row.add(total);
 	
 	row.hasChild = true; 
 	 

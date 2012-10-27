@@ -1,9 +1,13 @@
 function AppConfigTabs() {
 	
-	
 	var Window = require('ui/handheld/ApplicationWindow');
 	var Creditos = require('ui/handheld/AppConfigCreditosWindow');
-
+	var Badges = require('ui/handheld/AppConfigBadgesWindow');
+	var userConf = require('ui/handheld/AppProfileWindow');
+	var statsConf = require('ui/handheld/AppConfigStatsWindow');
+	
+	
+	
 	//create module instance
 	var self = Ti.UI.createTabGroup({
 		backgroundColor:'#f00',
@@ -12,10 +16,13 @@ function AppConfigTabs() {
 		
 	});
 	
+	
+	Ti.App.configTabGroup = self 
+	
 	//create app tabs
-	var win1 = new Window(L('Configuración')),
-		win2 = new Window(L('Stats')),
-		win3 = new Window(L('Badges')),
+	var win1 = new userConf(L('Configuración')),
+		win2 = new statsConf(L('Stats')),
+		win3 = new Badges(L('Badges')),
 		win4 = new Creditos(L('Creditos'));
 		// = new Window(L('otros'))
 	
@@ -23,9 +30,7 @@ function AppConfigTabs() {
 	
 	var tab1 = Ti.UI.createTab({
 		title: L('Configuración'),
-		icon: '/images/KS_nav_ui.png',
-		backgroundImage :"/iphone/tab-bar.jpg",
-		//backgroundColor:'#f00',
+		icon: '/iphone/settings.png',
 		window: win1
 	});
 	
@@ -33,21 +38,21 @@ function AppConfigTabs() {
 	
 	var tab2 = Ti.UI.createTab({
 		title: L('Stats'),
-		icon: '/images/KS_nav_ui.png',
+		icon: '/iphone/stats.png',
 		window: win2
 	});
 	win2.containingTab = tab2;
 	
 	var tab3 = Ti.UI.createTab({
 		title: L('Badges'),
-		icon: '/images/KS_nav_ui.png',
+		icon: '/iphone/badges.png',
 		window: win3
 	});
 	win3.containingTab = tab3;
 	
 	var tab4 = Ti.UI.createTab({
 		title: L('Creditos'),
-		icon: '/images/KS_nav_ui.png',
+		icon: '/iphone/credits.png',
 		window: win4
 	});
 	win4.containingTab = tab4;

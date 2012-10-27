@@ -9,12 +9,12 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>appicon.png</string>
+	<string>Icon.png</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.jhona.ciboost</string>
+			<string>com.creapptive.ciboost</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>ciboost</string>
@@ -23,7 +23,7 @@
 		</dict>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.jhona.ciboost</string>
+	<string>com.creapptive.ciboost</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -40,7 +40,14 @@
 	<true/>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>appicon.png</string>
+		<string>Icon.png</string>
+		<string>Icon@2x.png</string>
+		<string>Icon-72.png</string>
+		<string>Icon-72@2x.png</string>
+		<string>Icon-Small-50.png</string>
+		<string>Icon-Small-50@2x.png</string>
+		<string>Icon-Small.png</string>
+		<string>Icon-Small@2x.png</string>
 	</array>
 
 	<key>UISupportedInterfaceOrientations~ipad</key>

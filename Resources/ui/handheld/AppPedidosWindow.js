@@ -1,12 +1,15 @@
 function AppPedidosWindow() {
 	
 	var DetallePedido = require('/ui/handheld/AppPedidoDetalleWindow');
+	var AppQRWindow = require('/ui/handheld/AppQRWindow');
+	
 	
 	var self = Ti.UI.createWindow({
 		title:"Pedidos",
 		backgroundColor:'white',
 		backgroundImage:"/iphone/background.jpg",
 		barImage:"/iphone/nav-bar.jpg",
+		barColor:"000",
 		backButtonTitleImage :""
 	});
 	
@@ -17,24 +20,46 @@ function AppPedidosWindow() {
 		rowHeight:60
 	});
 
-	
-	var response = [1,1,1];
-    var tbl_data = [];
-    
-    for(i = 0; i < response.length; i++) {   
-    	var item = response[i]; 
-	 	tbl_data[i] = makeRow({ name:"Nombre Restaurante",cantidad:"10", total:"$00.00", image:"" });
-	  }
-	
-	table.setData(tbl_data);
+
 	table.addEventListener('click', function(e){
-  		self.containingTab.open(new DetallePedido({
-  			name:"Nombre restaurante",
-  			items:[{name:"nombre platillo"}]
-  		}));
-	});  			
-	  			
+  		self.containingTab.open(new AppQRWindow());
+	});
+		
+    // DETALLE DEL PEDIDO 
+    var cantidad = 0,total = 0;
+	var db = Ti.Database.open('main');
+	var resDB = db.execute("SELECT id, id_store, name FROM pedidos WHERE status = 0;");	
+	
+	if(resDB.isValidRow())
+	 {
+	 	var idpedido = resDB.fieldByName('id');
+		var resultSet = db.execute('SELECT id,id_item,name,cost,image,description,id_pedido FROM pedidos_items WHERE id = ' + idpedido + ";");	
+		var tbl_data = [];
+		while (resultSet.isValidRow()) {
+	       var id = resultSet.fieldByName('id');
+	       var name = resultSet.fieldByName('name');
+	       var cost = resultSet.fieldByName('cost');
+	       var image = resultSet.fieldByName('image');
+	       var description = resultSet.fieldByName('description');
+	       var id_pedido = resultSet.fieldByName('id_pedido');
+	       
+	       
+	       Ti.API.log(id);
+	       tbl_data[i] = makeRow({ name:name,cantidad:"10", precio:cost, total:"$00.00", image:image });
+	       
+	       resultSet.next();
+	    }
+    
+    	table.setData(tbl_data);
+	 }
+    
+    
+	
+	
+	  			 			
 	self.add(table);
+
+
 		
 	return self;
 };
@@ -51,7 +76,7 @@ function makeRow(item)
 	var imgPath = item.image
 	
 	if(imgPath =="")
-	imgPath = "/iphone/default-item.png";
+		imgPath = "/iphone/default-item.png";
 	
 	var imageThumb =  Titanium.UI.createImageView({
 		url:imgPath,
@@ -61,7 +86,7 @@ function makeRow(item)
 		top:10,
 		borderWidth: 2,
 		borderColor: "#FFF",
-		backgroundColor:"#000",
+		backgroundColor:"#fff",
 	});
 	 
 	var mainTitle = Titanium.UI.createLabel({
