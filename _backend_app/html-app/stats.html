@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Stats</title>
+</head>
+
+<body>
+
+<div id="container" style="min-width: 90%; height: 300px; margin: 0 auto"></div>
+<script language="javascript" src="js/jquery-1.7.2.min.js"></script>
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+
+
+<script language="javascript">
+    $(function () {
+    var chart;
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Relación Costo Unitario'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.total}%</b>',
+                percentageDecimals: 0
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Unidades:',
+                data: [
+                    ['Unidades', 100],
+                    ['Ventas', 90],
+                    
+					{
+                        name: 'Coste',
+                        y: 50,
+                        sliced: true,
+                        selected: true
+                    }
+                ]
+            }]
+        });
+    });
+    
+
+});
+</script>
+</body>
+</html>
